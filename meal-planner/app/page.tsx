@@ -64,7 +64,7 @@ const Planner = () => {
         fetchData();
     }, [startOfWeek]);
 
-    const handleCellChange = (row, col, value) => {
+    const handleCellChange = (row: number, col: number, value: string) => {
         setTableData((prev) => {
             const updated = [...prev];
             updated[row] = [...updated[row]];
@@ -116,22 +116,36 @@ const Planner = () => {
                         </thead>
                         <tbody>
                             {["Snack", "Breakfast", "Lunch", "Dinner", "Dessert"].map(
-                                (meal, rowIndex) => (
-                                    <tr key={meal}>
+                                (meal, i) => (
+                                    <tr key={i}>
                                         <td>{meal}</td>
                                         {days.map((_, colIndex) => (
                                             <td key={colIndex}>
-                                                <input
-                                                    type="text"
-                                                    value={tableData[rowIndex][colIndex]}
-                                                    onChange={(e) =>
-                                                        handleCellChange(
-                                                            rowIndex,
-                                                            colIndex,
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                />
+                                                {meals
+                                                    .filter((mealObj) => {
+                                                        const mealDate = moment(
+                                                            mealObj.date
+                                                        );
+                                                        return (
+                                                            mealObj.type.toLowerCase() ===
+                                                                meal.toLowerCase() &&
+                                                            mealDate.isSame(
+                                                                moment(startOfWeek).add(
+                                                                    colIndex,
+                                                                    "days"
+                                                                ),
+                                                                "day"
+                                                            )
+                                                        );
+                                                    })
+                                                    .map((meal, j) => (
+                                                        <div key={j}>
+                                                            <strong>{meal.name}</strong>
+                                                            <div>
+                                                                {meal.people.join(", ")}
+                                                            </div>
+                                                        </div>
+                                                    ))}
                                             </td>
                                         ))}
                                     </tr>
