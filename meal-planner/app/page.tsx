@@ -41,6 +41,11 @@ const Planner = () => {
     const [loading, setLoading] = useState(true);
     const [meals, setMeals] = useState<Meal[]>([]);
     const [startOfWeek, setStartOfWeek] = useState<Moment>(moment().startOf("isoWeek"));
+    const [tableData, setTableData] = useState(
+        Array(5)
+            .fill(null)
+            .map(() => Array(7).fill(""))
+    );
 
     useEffect(() => {
         async function fetchData() {
@@ -58,6 +63,15 @@ const Planner = () => {
 
         fetchData();
     }, [startOfWeek]);
+
+    const handleCellChange = (row, col, value) => {
+        setTableData((prev) => {
+            const updated = [...prev];
+            updated[row] = [...updated[row]];
+            updated[row][col] = value;
+            return updated;
+        });
+    };
 
     return (
         <>
@@ -87,13 +101,44 @@ const Planner = () => {
                             Next week
                         </button>
                     </div>
-                    {days.map((day, i) => (
-                        <div key={i}>
-                            <div>
-                                {day} {moment(startOfWeek).add(i, "days").format("D")}
-                            </div>
-                        </div>
-                    ))}
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th></th>
+                                {days.map((day, i) => (
+                                    <th key={i}>
+                                        {day}{" "}
+                                        {moment(startOfWeek).add(i, "days").format("D")}
+                                    </th>
+                                ))}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {["Snack", "Breakfast", "Lunch", "Dinner", "Dessert"].map(
+                                (meal, rowIndex) => (
+                                    <tr key={meal}>
+                                        <td>{meal}</td>
+                                        {days.map((_, colIndex) => (
+                                            <td key={colIndex}>
+                                                <input
+                                                    type="text"
+                                                    value={tableData[rowIndex][colIndex]}
+                                                    onChange={(e) =>
+                                                        handleCellChange(
+                                                            rowIndex,
+                                                            colIndex,
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                />
+                                            </td>
+                                        ))}
+                                    </tr>
+                                )
+                            )}
+                        </tbody>
+                    </table>
                 </div>
             )}
         </>
