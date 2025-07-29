@@ -86,6 +86,10 @@
     min-width: 100px;
 }
 
+.tableCell {
+    vertical-align: top;
+}
+
 .mealsList {
     display: flex;
     flex-direction: column;
