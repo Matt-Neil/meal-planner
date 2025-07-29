@@ -119,7 +119,7 @@ const MealCard = ({ meal, setMeals }: Props) => {
                     showUpdateMealModal(meal.id);
                 }}
             >
-                <strong>{meal.name}</strong>
+                {meal.name}
             </button>
         </>
     );

@@ -26,6 +26,7 @@
     max-width: 300px;
     background-color: #1b1b1b;
     border-radius: 12px;
+    cursor: auto;
 }
 
 .modalConfirm {
@@ -118,12 +119,14 @@
     display: inline-flex;
     align-items: center;
     gap: 4px;
-    min-height: 14px;
-    width: 14px;
     margin-inline-end: 12px;
     font-size: 14px;
     accent-color: #3b3b3b;
-    outline: none;
+    cursor: pointer;
+
+    &:hover {
+        accent-color: #ededed;
+    }
 }
 
 .date {
