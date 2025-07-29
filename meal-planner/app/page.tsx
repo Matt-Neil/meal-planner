@@ -29,23 +29,12 @@ const getMeals = async (startOfWeek: string, endOfWeek: string) => {
 };
 
 const Planner = () => {
-    const days = [
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday",
-        "Sunday",
-    ];
     const [loading, setLoading] = useState(true);
     const [meals, setMeals] = useState<Meal[]>([]);
     const [startOfWeek, setStartOfWeek] = useState<Moment>(moment().startOf("isoWeek"));
-    const [tableData, setTableData] = useState(
-        Array(5)
-            .fill(null)
-            .map(() => Array(7).fill(""))
-    );
+    const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+    const diff = moment().startOf("day").diff(startOfWeek.clone().startOf("day"), "days");
+    const todayIndex = diff >= 0 && diff < 7 ? diff : null;
 
     useEffect(() => {
         async function fetchData() {
@@ -63,15 +52,6 @@ const Planner = () => {
 
         fetchData();
     }, [startOfWeek]);
-
-    const handleCellChange = (row: number, col: number, value: string) => {
-        setTableData((prev) => {
-            const updated = [...prev];
-            updated[row] = [...updated[row]];
-            updated[row][col] = value;
-            return updated;
-        });
-    };
 
     return (
         <>
@@ -102,14 +82,25 @@ const Planner = () => {
                         </button>
                     </div>
 
-                    <table>
+                    <table className={styles.table}>
                         <thead>
                             <tr>
                                 <th></th>
                                 {days.map((day, i) => (
-                                    <th key={i}>
+                                    <th
+                                        className={styles.tableHeader}
+                                        key={i}
+                                    >
                                         {day}{" "}
-                                        {moment(startOfWeek).add(i, "days").format("D")}
+                                        <span
+                                            className={
+                                                i === todayIndex ? styles.today : ""
+                                            }
+                                        >
+                                            {moment(startOfWeek)
+                                                .add(i, "days")
+                                                .format("D")}
+                                        </span>
                                     </th>
                                 ))}
                             </tr>
@@ -119,8 +110,11 @@ const Planner = () => {
                                 (meal, i) => (
                                     <tr key={i}>
                                         <td>{meal}</td>
-                                        {days.map((_, colIndex) => (
-                                            <td key={colIndex}>
+                                        {days.map((_, y) => (
+                                            <td
+                                                key={y}
+                                                className={styles.tableCell}
+                                            >
                                                 {meals
                                                     .filter((mealObj) => {
                                                         const mealDate = moment(
@@ -131,7 +125,7 @@ const Planner = () => {
                                                                 meal.toLowerCase() &&
                                                             mealDate.isSame(
                                                                 moment(startOfWeek).add(
-                                                                    colIndex,
+                                                                    y,
                                                                     "days"
                                                                 ),
                                                                 "day"

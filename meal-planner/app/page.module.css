@@ -1,0 +1,19 @@
+.table {
+    border-collapse: collapse;
+}
+
+.table th,
+.table td {
+    border: 1px solid #323232;
+    padding: 8px;
+}
+
+.tableHeader {
+    width: 200px;
+}
+
+.today {
+    padding: 4px;
+    border-radius: 16px;
+    background-color: #d22f16;
+}
