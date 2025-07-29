@@ -191,20 +191,25 @@ const Planner = () => {
 
                                             return (
                                                 <td
-                                                    key={y}
-                                                    onClick={() => {
-                                                        showAddMealModal(
-                                                            meal.toLowerCase() as
-                                                                | "snack"
-                                                                | "breakfast"
-                                                                | "lunch"
-                                                                | "dinner"
-                                                                | "dessert",
-                                                            cellDate.toDate()
-                                                        );
+                                                    className={styles.tableCell}
+                                                    onClick={(e) => {
+                                                        if (
+                                                            e.target === e.currentTarget
+                                                        ) {
+                                                            showAddMealModal(
+                                                                meal.toLowerCase() as
+                                                                    | "snack"
+                                                                    | "breakfast"
+                                                                    | "lunch"
+                                                                    | "dinner"
+                                                                    | "dessert",
+                                                                cellDate.toDate()
+                                                            );
+                                                        }
                                                     }}
+                                                    key={y}
                                                 >
-                                                    <div className={styles.tableCell}>
+                                                    <div className={styles.mealsList}>
                                                         {meals
                                                             .filter((mealObj) => {
                                                                 const mealDate = moment(
@@ -222,6 +227,7 @@ const Planner = () => {
                                                             .map((meal, j) => (
                                                                 <MealCard
                                                                     meal={meal}
+                                                                    setMeals={setMeals}
                                                                     key={j}
                                                                 />
                                                             ))}

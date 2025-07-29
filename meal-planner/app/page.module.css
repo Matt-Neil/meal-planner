@@ -71,11 +71,11 @@
     width: 200px;
 }
 
-.tableCell {
+.mealsList {
     display: flex;
     flex-direction: column;
     gap: 4px;
-    padding-block-end: 24px;
+    margin-block-end: 24px;
 }
 
 .today {

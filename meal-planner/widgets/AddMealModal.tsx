@@ -80,7 +80,7 @@ const AddMealModal = ({ addMeal, date, type }: Props) => {
             <div
                 className={styles.background}
                 onClick={() => hideAddMealModal()}
-            ></div>
+            />
         </>
     );
 };
