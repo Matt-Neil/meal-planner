@@ -1,7 +1,7 @@
 .header {
     display: flex;
     align-items: center;
-    margin-block-end: 16px;
+    margin-block-end: 24px;
 }
 
 .monthYear {
@@ -53,6 +53,13 @@
     padding: 6px 8px;
     background-color: #212121;
     border: 1px solid #393939;
+}
+
+.table tbody tr td:first-child {
+    padding: 6px 8px;
+    background-color: #212121;
+    border: 1px solid #393939;
+    font-weight: 600;
 }
 
 .tableColumn {
