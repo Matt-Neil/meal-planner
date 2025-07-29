@@ -1,17 +1,17 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import moment from "moment";
+import moment, { Moment } from "moment";
 import styles from "./page.module.css";
 import { Meal } from "@/types/meal";
 
-const getMeals = async (startOfCurrentWeek: string, startOfNextWeek: string) => {
+const getMeals = async (startOfWeek: string, endOfWeek: string) => {
     try {
-        const expenses = await fetch(
+        const meals = await fetch(
             `https://${process.env.SUPABASE_BASE}.supabase.co/rest/v1/meals` +
                 `?date=gte.${encodeURIComponent(
-                    startOfCurrentWeek
-                )}&date=lt.${encodeURIComponent(startOfNextWeek)}`,
+                    startOfWeek
+                )}&date=lt.${encodeURIComponent(endOfWeek)}`,
             {
                 method: "GET",
                 headers: {
@@ -22,23 +22,34 @@ const getMeals = async (startOfCurrentWeek: string, startOfNextWeek: string) => 
             }
         );
 
-        return await expenses.json();
+        return await meals.json();
     } catch (e) {
         console.log(e);
     }
 };
 
 const Planner = () => {
+    const days = [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday",
+    ];
     const [loading, setLoading] = useState(true);
     const [meals, setMeals] = useState<Meal[]>([]);
+    const [startOfWeek, setStartOfWeek] = useState<Moment>(moment().startOf("isoWeek"));
 
     useEffect(() => {
         async function fetchData() {
             setLoading(true);
+
             const mealsData =
                 (await getMeals(
-                    moment().startOf("isoWeek").format("YYYY-MM-DD"),
-                    moment().startOf("isoWeek").add(1, "week").format("YYYY-MM-DD")
+                    startOfWeek.format("YYYY-MM-DD"),
+                    moment(startOfWeek).add(7, "days").format("YYYY-MM-DD")
                 )) ?? [];
 
             setMeals(mealsData);
@@ -46,7 +57,7 @@ const Planner = () => {
         }
 
         fetchData();
-    }, []);
+    }, [startOfWeek]);
 
     return (
         <>
@@ -54,9 +65,14 @@ const Planner = () => {
                 <div className={styles.loading}>Loading...</div>
             ) : (
                 <div>
-                    {meals.map((meal, i) => {
-                        return <span>{meal.name}</span>;
-                    })}
+                    {moment(startOfWeek).format("MMMM YYYY")}
+                    {days.map((day, i) => (
+                        <div key={i}>
+                            <div>
+                                {day} {moment(startOfWeek).add(i, "days").format("D")}
+                            </div>
+                        </div>
+                    ))}
                 </div>
             )}
         </>
