@@ -61,11 +61,32 @@ const Planner = () => {
 
     return (
         <>
-            {loading ? (
-                <div className={styles.loading}>Loading...</div>
-            ) : (
+            {!loading && (
                 <div>
-                    {moment(startOfWeek).format("MMMM YYYY")}
+                    <div>
+                        <span>{moment(startOfWeek).format("MMMM YYYY")}</span>
+                        <button
+                            onClick={() => {
+                                setStartOfWeek(startOfWeek.clone().subtract(1, "week"));
+                            }}
+                        >
+                            Previous week
+                        </button>
+                        <button
+                            onClick={() => {
+                                setStartOfWeek(moment().startOf("isoWeek"));
+                            }}
+                        >
+                            Today
+                        </button>
+                        <button
+                            onClick={() => {
+                                setStartOfWeek(startOfWeek.clone().add(1, "week"));
+                            }}
+                        >
+                            Next week
+                        </button>
+                    </div>
                     {days.map((day, i) => (
                         <div key={i}>
                             <div>
