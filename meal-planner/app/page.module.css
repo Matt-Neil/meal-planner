@@ -71,7 +71,9 @@
     padding: 6px 8px;
     background-color: #212121;
     border: 1px solid #393939;
+    font-size: 12px;
     font-weight: 600;
+    letter-spacing: 0.1px;
 }
 
 .table tbody td:not(:first-child) {
