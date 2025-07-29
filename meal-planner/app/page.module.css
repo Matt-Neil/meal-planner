@@ -40,9 +40,20 @@
     transform: rotate(180deg);
 }
 
+.wrapper {
+    max-width: 100%;
+    white-space: nowrap;
+    overflow-x: auto;
+}
+
 .table {
+    width: 100%;
+    min-width: 512px;
+    table-layout: auto;
     border-collapse: collapse;
+    white-space: nowrap;
     margin-block-end: 24px;
+    overflow-x: auto;
 }
 
 .table td {
@@ -69,6 +80,7 @@
 
 .tableColumn {
     width: 200px;
+    min-width: 100px;
 }
 
 .mealsList {

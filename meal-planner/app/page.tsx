@@ -150,98 +150,104 @@ const Planner = () => {
                     </button>
                 </div>
             </div>
-            {!loading && (
-                <main>
-                    <table className={styles.table}>
-                        <thead>
-                            <tr>
-                                <th></th>
-                                {days.map((day, i) => (
-                                    <th
-                                        className={styles.tableColumn}
-                                        key={i}
-                                    >
-                                        {day}{" "}
-                                        <span
-                                            className={
-                                                i === todayIndex ? styles.today : ""
-                                            }
+            <main>
+                {!loading && (
+                    <div className={styles.wrapper}>
+                        <table className={styles.table}>
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    {days.map((day, i) => (
+                                        <th
+                                            className={styles.tableColumn}
+                                            key={i}
                                         >
-                                            {moment(startOfWeek)
-                                                .add(i, "days")
-                                                .format("D")}
-                                        </span>
-                                    </th>
-                                ))}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {["Snack", "Breakfast", "Lunch", "Dinner", "Dessert"].map(
-                                (meal, i) => (
-                                    <tr
-                                        className={styles.tableRow}
-                                        key={i}
-                                    >
-                                        <td>{meal}</td>
-                                        {days.map((_, y) => {
-                                            const cellDate = moment(startOfWeek).add(
-                                                y,
-                                                "days"
-                                            );
+                                            {day}{" "}
+                                            <span
+                                                className={
+                                                    i === todayIndex ? styles.today : ""
+                                                }
+                                            >
+                                                {moment(startOfWeek)
+                                                    .add(i, "days")
+                                                    .format("D")}
+                                            </span>
+                                        </th>
+                                    ))}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {["Snack", "Breakfast", "Lunch", "Dinner", "Dessert"].map(
+                                    (meal, i) => (
+                                        <tr
+                                            className={styles.tableRow}
+                                            key={i}
+                                        >
+                                            <td>{meal}</td>
+                                            {days.map((_, y) => {
+                                                const cellDate = moment(startOfWeek).add(
+                                                    y,
+                                                    "days"
+                                                );
 
-                                            return (
-                                                <td
-                                                    className={styles.tableCell}
-                                                    onClick={(e) => {
-                                                        if (
-                                                            e.target === e.currentTarget
-                                                        ) {
-                                                            showAddMealModal(
-                                                                meal.toLowerCase() as
-                                                                    | "snack"
-                                                                    | "breakfast"
-                                                                    | "lunch"
-                                                                    | "dinner"
-                                                                    | "dessert",
-                                                                cellDate.toDate()
-                                                            );
-                                                        }
-                                                    }}
-                                                    key={y}
-                                                >
-                                                    <div className={styles.mealsList}>
-                                                        {meals
-                                                            .filter((mealObj) => {
-                                                                const mealDate = moment(
-                                                                    mealObj.date
+                                                return (
+                                                    <td
+                                                        className={styles.tableCell}
+                                                        onClick={(e) => {
+                                                            if (
+                                                                e.target ===
+                                                                e.currentTarget
+                                                            ) {
+                                                                showAddMealModal(
+                                                                    meal.toLowerCase() as
+                                                                        | "snack"
+                                                                        | "breakfast"
+                                                                        | "lunch"
+                                                                        | "dinner"
+                                                                        | "dessert",
+                                                                    cellDate.toDate()
                                                                 );
-                                                                return (
-                                                                    mealObj.type.toLowerCase() ===
-                                                                        meal.toLowerCase() &&
-                                                                    mealDate.isSame(
-                                                                        cellDate,
-                                                                        "day"
-                                                                    )
-                                                                );
-                                                            })
-                                                            .map((meal, j) => (
-                                                                <MealCard
-                                                                    meal={meal}
-                                                                    setMeals={setMeals}
-                                                                    key={j}
-                                                                />
-                                                            ))}
-                                                    </div>
-                                                </td>
-                                            );
-                                        })}
-                                    </tr>
-                                )
-                            )}
-                        </tbody>
-                    </table>
-                </main>
-            )}
+                                                            }
+                                                        }}
+                                                        key={y}
+                                                    >
+                                                        <div className={styles.mealsList}>
+                                                            {meals
+                                                                .filter((mealObj) => {
+                                                                    const mealDate =
+                                                                        moment(
+                                                                            mealObj.date
+                                                                        );
+                                                                    return (
+                                                                        mealObj.type.toLowerCase() ===
+                                                                            meal.toLowerCase() &&
+                                                                        mealDate.isSame(
+                                                                            cellDate,
+                                                                            "day"
+                                                                        )
+                                                                    );
+                                                                })
+                                                                .map((meal, j) => (
+                                                                    <MealCard
+                                                                        meal={meal}
+                                                                        setMeals={
+                                                                            setMeals
+                                                                        }
+                                                                        key={j}
+                                                                    />
+                                                                ))}
+                                                        </div>
+                                                    </td>
+                                                );
+                                            })}
+                                        </tr>
+                                    )
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
+                )}
+            </main>
             <Keys />
         </>
     );
