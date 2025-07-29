@@ -1,0 +1,33 @@
+.keys {
+    position: absolute;
+    bottom: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.keyPair {
+    display: flex;
+    gap: 8px;
+}
+
+.key {
+    width: 16px;
+    height: 16px;
+    border-radius: 16px;
+}
+
+.sharedKey {
+    composes: key;
+    background-color: #22953f;
+}
+
+.mattKey {
+    composes: key;
+    background-color: #bc9d2c;
+}
+
+.ellieKey {
+    composes: key;
+    background-color: #2f56a9;
+}

@@ -42,6 +42,7 @@
 
 .table {
     border-collapse: collapse;
+    margin-block-end: 24px;
 }
 
 .table td {
@@ -62,8 +63,19 @@
     font-weight: 600;
 }
 
+.table tbody td:not(:first-child) {
+    cursor: pointer;
+}
+
 .tableColumn {
     width: 200px;
+}
+
+.tableCell {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding-block-end: 24px;
 }
 
 .today {

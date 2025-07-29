@@ -1,9 +1,11 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import moment, { Moment } from "moment";
 import styles from "./page.module.css";
 import { Meal } from "@/types/meal";
+import MealCard from "@/components/MealCard";
+import Keys from "@/components/Keys";
 
 const getMeals = async (startOfWeek: string, endOfWeek: string) => {
     try {
@@ -53,57 +55,56 @@ const Planner = () => {
         fetchData();
     }, [startOfWeek]);
 
+    const formattedMonthYear = useMemo(() => {
+        return moment(startOfWeek).format("MMMM YYYY");
+    }, [startOfWeek && moment(startOfWeek).format("MMMM YYYY")]);
+
     return (
         <>
+            <div className={styles.header}>
+                <span className={styles.monthYear}>{formattedMonthYear}</span>
+                <div className={styles.navigation}>
+                    <button
+                        className={styles.navigationButton}
+                        onClick={() => {
+                            setStartOfWeek(startOfWeek.clone().subtract(1, "week"));
+                        }}
+                    >
+                        <img
+                            className={styles.arrowIcon}
+                            src="/arrow_back.svg"
+                            alt="Previous week"
+                            width="12"
+                            height="12"
+                        />
+                    </button>
+                    <button
+                        className={styles.navigationButton}
+                        onClick={() => {
+                            setStartOfWeek(moment().startOf("isoWeek"));
+                        }}
+                        disabled={!!todayIndex}
+                    >
+                        Today
+                    </button>
+                    <button
+                        className={styles.navigationButton}
+                        onClick={() => {
+                            setStartOfWeek(startOfWeek.clone().add(1, "week"));
+                        }}
+                    >
+                        <img
+                            className={styles.arrowIconFlipped}
+                            src="/arrow_back.svg"
+                            alt="Next week"
+                            width="12"
+                            height="12"
+                        />
+                    </button>
+                </div>
+            </div>
             {!loading && (
-                <div>
-                    <div className={styles.header}>
-                        <span className={styles.monthYear}>
-                            {moment(startOfWeek).format("MMMM YYYY")}
-                        </span>
-                        <div className={styles.navigation}>
-                            <button
-                                className={styles.navigationButton}
-                                onClick={() => {
-                                    setStartOfWeek(
-                                        startOfWeek.clone().subtract(1, "week")
-                                    );
-                                }}
-                            >
-                                <img
-                                    className={styles.arrowIcon}
-                                    src="/arrow_back.svg"
-                                    alt="Previous week"
-                                    width="12"
-                                    height="12"
-                                />
-                            </button>
-                            <button
-                                className={styles.navigationButton}
-                                onClick={() => {
-                                    setStartOfWeek(moment().startOf("isoWeek"));
-                                }}
-                                disabled={!!todayIndex}
-                            >
-                                Today
-                            </button>
-                            <button
-                                className={styles.navigationButton}
-                                onClick={() => {
-                                    setStartOfWeek(startOfWeek.clone().add(1, "week"));
-                                }}
-                            >
-                                <img
-                                    className={styles.arrowIconFlipped}
-                                    src="/arrow_back.svg"
-                                    alt="Next week"
-                                    width="12"
-                                    height="12"
-                                />
-                            </button>
-                        </div>
-                    </div>
-
+                <>
                     <table className={styles.table}>
                         <thead>
                             <tr>
@@ -137,34 +138,35 @@ const Planner = () => {
                                         <td>{meal}</td>
                                         {days.map((_, y) => (
                                             <td
+                                                onClick={() => {
+                                                    alert("Add meal");
+                                                }}
                                                 key={y}
-                                                className={styles.tableCell}
                                             >
-                                                {meals
-                                                    .filter((mealObj) => {
-                                                        const mealDate = moment(
-                                                            mealObj.date
-                                                        );
-                                                        return (
-                                                            mealObj.type.toLowerCase() ===
-                                                                meal.toLowerCase() &&
-                                                            mealDate.isSame(
-                                                                moment(startOfWeek).add(
-                                                                    y,
-                                                                    "days"
-                                                                ),
-                                                                "day"
-                                                            )
-                                                        );
-                                                    })
-                                                    .map((meal, j) => (
-                                                        <div key={j}>
-                                                            <strong>{meal.name}</strong>
-                                                            <div>
-                                                                {meal.people.join(", ")}
-                                                            </div>
-                                                        </div>
-                                                    ))}
+                                                <div className={styles.tableCell}>
+                                                    {meals
+                                                        .filter((mealObj) => {
+                                                            const mealDate = moment(
+                                                                mealObj.date
+                                                            );
+                                                            return (
+                                                                mealObj.type.toLowerCase() ===
+                                                                    meal.toLowerCase() &&
+                                                                mealDate.isSame(
+                                                                    moment(
+                                                                        startOfWeek
+                                                                    ).add(y, "days"),
+                                                                    "day"
+                                                                )
+                                                            );
+                                                        })
+                                                        .map((meal, j) => (
+                                                            <MealCard
+                                                                meal={meal}
+                                                                key={j}
+                                                            />
+                                                        ))}
+                                                </div>
                                             </td>
                                         ))}
                                     </tr>
@@ -172,8 +174,9 @@ const Planner = () => {
                             )}
                         </tbody>
                     </table>
-                </div>
+                </>
             )}
+            <Keys />
         </>
     );
 };
