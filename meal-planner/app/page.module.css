@@ -95,5 +95,6 @@
 .today {
     padding: 4px;
     border-radius: 16px;
+    color: #ededed;
     background-color: #d22f16;
 }

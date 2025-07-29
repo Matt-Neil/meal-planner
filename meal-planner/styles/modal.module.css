@@ -98,6 +98,8 @@
     padding: 4px;
     width: 100%;
     border-radius: 4px;
+    background-color: #3b3b3b;
+    color: #ededed;
     border: 1px #4a4a4a solid;
 }
 
@@ -116,8 +118,12 @@
     display: inline-flex;
     align-items: center;
     gap: 4px;
+    min-height: 14px;
+    width: 14px;
     margin-inline-end: 12px;
     font-size: 14px;
+    accent-color: #3b3b3b;
+    outline: none;
 }
 
 .date {
