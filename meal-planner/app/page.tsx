@@ -57,29 +57,51 @@ const Planner = () => {
         <>
             {!loading && (
                 <div>
-                    <div>
-                        <span>{moment(startOfWeek).format("MMMM YYYY")}</span>
-                        <button
-                            onClick={() => {
-                                setStartOfWeek(startOfWeek.clone().subtract(1, "week"));
-                            }}
-                        >
-                            Previous week
-                        </button>
-                        <button
-                            onClick={() => {
-                                setStartOfWeek(moment().startOf("isoWeek"));
-                            }}
-                        >
-                            Today
-                        </button>
-                        <button
-                            onClick={() => {
-                                setStartOfWeek(startOfWeek.clone().add(1, "week"));
-                            }}
-                        >
-                            Next week
-                        </button>
+                    <div className={styles.header}>
+                        <span className={styles.monthYear}>
+                            {moment(startOfWeek).format("MMMM YYYY")}
+                        </span>
+                        <div className={styles.navigation}>
+                            <button
+                                className={styles.navigationButton}
+                                onClick={() => {
+                                    setStartOfWeek(
+                                        startOfWeek.clone().subtract(1, "week")
+                                    );
+                                }}
+                            >
+                                <img
+                                    className={styles.arrowIcon}
+                                    src="/arrow_back.svg"
+                                    alt="Previous week"
+                                    width="12"
+                                    height="12"
+                                />
+                            </button>
+                            <button
+                                className={styles.navigationButton}
+                                onClick={() => {
+                                    setStartOfWeek(moment().startOf("isoWeek"));
+                                }}
+                                disabled={!!todayIndex}
+                            >
+                                Today
+                            </button>
+                            <button
+                                className={styles.navigationButton}
+                                onClick={() => {
+                                    setStartOfWeek(startOfWeek.clone().add(1, "week"));
+                                }}
+                            >
+                                <img
+                                    className={styles.arrowIconFlipped}
+                                    src="/arrow_back.svg"
+                                    alt="Next week"
+                                    width="12"
+                                    height="12"
+                                />
+                            </button>
+                        </div>
                     </div>
 
                     <table className={styles.table}>
@@ -88,7 +110,7 @@ const Planner = () => {
                                 <th></th>
                                 {days.map((day, i) => (
                                     <th
-                                        className={styles.tableHeader}
+                                        className={styles.tableColumn}
                                         key={i}
                                     >
                                         {day}{" "}
@@ -108,7 +130,10 @@ const Planner = () => {
                         <tbody>
                             {["Snack", "Breakfast", "Lunch", "Dinner", "Dessert"].map(
                                 (meal, i) => (
-                                    <tr key={i}>
+                                    <tr
+                                        className={styles.tableRow}
+                                        key={i}
+                                    >
                                         <td>{meal}</td>
                                         {days.map((_, y) => (
                                             <td
