@@ -100,7 +100,7 @@ const Planner = () => {
     };
 
     return (
-        <>
+        <div className={styles.container}>
             {visibleAddMealModal && (
                 <AddMealModal
                     addMeal={addMeal}
@@ -249,7 +249,7 @@ const Planner = () => {
                 )}
             </main>
             <Keys />
-        </>
+        </div>
     );
 };
 
