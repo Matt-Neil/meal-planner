@@ -75,6 +75,7 @@
     font-weight: 500;
     vertical-align: top;
     letter-spacing: 0.1px;
+    width: 100px;
 }
 
 .table tbody td:not(:first-child) {
@@ -98,7 +99,7 @@
 }
 
 .today {
-    padding: 4px;
+    padding: 4px 8px;
     border-radius: 16px;
     color: #ededed;
     background-color: #d22f16;
