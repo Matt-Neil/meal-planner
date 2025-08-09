@@ -14,7 +14,7 @@ interface Props {
 const AddMealModal = ({ addMeal, date, type }: Props) => {
     const { hideAddMealModal } = useShowAddMealModalContext();
     const [name, setName] = useState<string>("");
-    const [people, setPeople] = useState<string[]>([]);
+    const [people, setPeople] = useState<string[]>(["Matt", "Ellie"]);
     const options = ["Matt", "Ellie"];
 
     const togglePerson = (name: string) => {
