@@ -41,6 +41,7 @@ const AddMealModal = ({ addMeal, date, type }: Props) => {
                             className={styles.inputName}
                             placeholder="Name"
                             value={name}
+                            autoFocus
                             required
                             onChange={(e) => setName(e.target.value)}
                         />
